@@ -1,1 +1,1 @@
-# COP4710Proj
+# COP4710 Group Project
