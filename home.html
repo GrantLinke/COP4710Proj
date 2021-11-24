@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Homepage</title>
+	<h1>Homepage</h1>
+</head>
+
+<body>
+    
+    <div id="loggedInDiv">
+        <h2>Welcome Professor <span id="userName">NAME HERE</span> </h2>
+    </div>
+    
+    <div id="intro">
+        <p>Welcome to the Book Ordering application, you can either create a new book order form for this semester or view and edit an existing form if one was already created. To Create a new order form click the create button below, to View / Edit an existing form then click the View button below.</p>
+    </div>
+    
+    <div id="homeForm">
+        
+        <div id="newbookformbutton" class="buttonBlocks">
+            Create a New Book Order Form:
+            <form method="post" action="form.html">
+                <button id="createButton" class="buttons" type="submit">Create</button>
+            </form>
+        </div>
+        
+        <div id="viewbookformsbutton" class="buttonBlocks">
+            View an existing Book Order Form:
+            <form method="post" action="editForm.html">
+                <button id="viewButton" class="buttons" type="submit">View</button>
+            </form>
+        </div>
+        
+    </div>
+
+    <br>
+
+    <div class="logout">
+		<a href="login.html">
+			<button type="button" id="logoutButton" class="buttons" onclick="logoutfunction"> Log Out </button>
+		</a>
+    </div>
+
+</body>
+</html>

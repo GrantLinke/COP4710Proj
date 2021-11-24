@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Edit Book Order Form</title>
+	<h1>Edit Book Order Form</h1>
+</head>
+
+<body>
+    
+    <div id="editFormIntro">
+        <p>Welcome back to the Book Ordering Form ...</p>
+    </div>
+    
+    <div id="newBookOrderForm">
+        <span>Class_1</span>
+        <form>
+            Book Title:
+                <input type="text" name="bookTitle" value="FORM DATA" required></input><br>
+            Author Name(s):
+                <input type="text" name="authors" value="FORM DATA" required></input><br>
+            Edition:
+                <input type="text" name="edition" value="FORM DATA" required></input><br>
+            Publisher:
+                <input type="text" name="publisher" value="FORM DATA" required></input><br>
+            ISBN:
+                <input type="text" name="isbn" value="FORM DATA" required></input><br>
+            
+			
+            <form action="home.html">
+                <input type="submit" name="save" value="Update Order Form">
+            </form>
+        </form>
+    </div>
+
+    <br>
+
+    <div class="back">
+        <form action="home.html" method="post">
+            <input type="submit" name="back" value="Back">
+        </form>
+    </div>
+
+    <div class="logout">
+		<a href="login.html">
+			<button type="button" id="logoutButton" class="buttons" onclick="logoutfunction"> Log Out </button>
+		</a>
+	</div>
+
+</body>
+</html>
