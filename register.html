@@ -7,19 +7,17 @@
 </head>
 
 <body>
-	<form>
-		Enter new username:
-			<input type="text" name="username" required></input><br>
+	<form method="post" action="home.html">
+		Enter new Email:
+			<input type="text" name="email" required></input><br>
 		Enter a password:
 			<input type="password" name="password" required></input><br>
 			
-		<form action="home.html">
 			<input type="submit" name="register" value="Register New Account">
-		</form>
-		
-		<a href="login.html">
-			<input type="submit" name="back" value="Back">
-		</a>
 	</form>
+		
+	<a href="login.html">
+		<input type="submit" name="back" value="Back">
+	</a>
 </body>
 </html>

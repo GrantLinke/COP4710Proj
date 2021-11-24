@@ -7,20 +7,17 @@
 </head>
 
 <body>
-	<form>
-	
-		<label for="username">Enter username:</label>
-			<input type="text" name="username" required></input><br>
+	<form method="post" action="home.html">
+		<label for="username">Enter Email:</label>
+			<input type="text" name="email" required></input><br>
 		<label for="password">Enter password:</label>
 			<input name="password" type="password" required></input><br>
 	
-		<form action="home.html" method="post">
-			<input type="submit" name="login" value="Login"/>
-		</form>
-		
-		<a href="register.html">
-			<input type="submit" name="register" value="Register new account">
-		</a>
+		<input type="submit" name="login" value="Login"/>
 	</form>
+	
+	<a href="register.html">
+		<input type="submit" name="register" value="Register new account">
+	</a>
 </body>
 </html>
