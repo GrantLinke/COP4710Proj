@@ -31,7 +31,6 @@
         $isbn = $_REQUEST['isbn'];
           
         // Performing insert query execution
-        // here our table name is college
         $sql = "INSERT INTO Form  VALUES ('$classname', 
             '$semester','$isbn','$booktitle', '$author', '$edition', '$publisher')";
           
