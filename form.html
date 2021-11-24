@@ -7,27 +7,27 @@
 </head>
 
 <body>
-	<form>
-	
+	<form action="insertform.php" method="post">
+		<label for="class">Enter classname:</label>
+			<input type="text" name="classname"></input><br>
+		<label for="semester">Enter semester:</label>
+			<input type="text" name="semestername"></input><br>
 		<label for="booktitle">Enter booktitle:</label>
 			<input type="text" name="booktitle"></input><br>
 		<label for="authors">Enter author names:</label>
-			<input type="text" name="author names" ></input><br>
+			<input type="text" name="authornames" ></input><br>
         <label for="edition">Enter edition:</label>
 			<input type="text" name="edition"></input><br>  
         <label for="publisher">Enter publisher:</label>
 			<input type="text" name="publisher"></input><br>
         <label for="isbn">Enter ISBN:</label>
-			<input type="text" name="ISBN"></input><br>    
+			<input type="text" name="isbn"></input><br>    
             
-	
-		<form action="home.html" method="post">
 			<input type="submit" name="sendform" value="Submit"/>
-		</form>
+	</form>
 		
-		<form action="home.html" method="post">
-			<input type="submit" name="back" value="Back">
-		</form>
+	<form action="home.html" method="post">
+		<input type="submit" name="back" value="Back">
 	</form>
 </body>
 </html>
