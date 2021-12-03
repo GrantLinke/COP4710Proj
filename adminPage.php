@@ -2,21 +2,46 @@
 <html>
 
 <head>
-	<title>Register account</title>
-	<h1>Register a new account</h1>
+	<title>Admin homepage</title>
+	<h1>Admin homepage</h1>
 </head>
 
 <body>
-	<form method="post" action="createAdmin.html">
-		<button type="submit" id="create">
-		<label for="create">Create new admin</label>
+	<a href="createAdmin.html">
+		<input type="submit" id="create" value="Create a new admin">
+	</a>
+	<br>
+	
+	<a href="deleteAdmin.html">
+		<input type="submit" id="delete" value="Delete existing admin">
+	</a>
+	<br>
+	
+	<a href="changePassword.html">
+		<input type="submit" id="change" value="Change password">
+	</a>
+	<br><br>
+	
+	<form method="post" action="sendEmail.php">
+		Send email reminder to professors with submission deadline:<br>
+		<input type="date" id="deadline" name="deadline">
+		<input type="submit" id="subDeadline" value="Send email">
 	</form>
 	
-	<form method="post" action="deleteAdmin.html">
-		<button type="submit" id="delete">
-		<label for="delete">Delete existing admin</label>
+	<br><br>
+	
+	<form method="post" action="individualReminder.php">
+		Enter a professor's email to send them a book request: <br>
+		<input type="text" name="email">
+		<input type="submit" id="indivRemind" value="Send email">
 	</form>
-		
+	<br>
+	
+	<a href="finalList.html">
+		<input type="submit" name="finalList" value="Create final list">
+	</a>
+	<br>
+	
 	<a href="login.html">
 		<input type="submit" name="back" value="Back">
 	</a>
