@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>List</title>
+	<h1>Final List</h1>
+</head>
+
+<body>
+     
+    <h2> Here is the final list </h2>>
+    <br>
+
+    <?php
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "libDB";
+
+        // Create connection
+        $conn = new mysqli_connect($servername, $username, $password);
+
+        $sql = "SELECT * FROM Form;"
+        $result = mysqli_query($conn, $sql);
+        if(mysqli_num_rows)($result) > 0)
+        {
+            while($row = mysqli_fetch_assos($result))
+            {
+              $class = $row['class'];
+              $semester = $row['semester'];
+              $isbn = $row['isbn'];
+              $book_title = $row[book_title];
+              $author_names = $row[author_names];
+              $edition = $row[edition];
+              $publisher = $row[publisher];
+            }
+
+            <h2><?php echo $class;?></h2>>
+            <h2><?php echo $semester;?></h2>>
+            <h2><?php echo $isbn;?></h2>>
+            <h2><?php echo $book_title;?></h2>>
+            <h2><?php echo $author_names;?></h2>>
+            <h2><?php echo $edition;?></h2>>
+            <h2><?php echo $publisher;?></h2>>
+            <br>
+        }
+
+        mysqli_free_result($result);
+        mysqli_close($con);
+
+    ?>
+
+    <br>
+
+    <div class="back">
+        <form action="home.html" method="post">
+            <input type="submit" name="back" value="Back">
+        </form>
+    </div>
+
+    <div class="logout">
+		<a href="login.html">
+			<button type="button" id="logoutButton" class="buttons" onclick="logoutfunction"> Log Out </button>
+		</a>
+	</div>
+
+</body>
+
+</html>
