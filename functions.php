@@ -52,7 +52,10 @@ function createUser($email, $password, $role)
 	mysqli_stmt_bind_param($stmt, "sss", $role, $email, $password);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
-	header("location: home.html");
+	
+	if($role == "professors") { header("location: home.html"); }
+	else { header("location: adminPage.php"); } 
+	
 	exit();
 }
 
