@@ -124,7 +124,7 @@ function changePassword($conn, $email, $oldPW, $newPW, $confPW){
 	$result = mysqli_stmt_get_result($stmt);
 
 	if($result == $oldPW){
-		$sql2 = "UPDATE staff SET password = ? WHERE password = ?"
+		$sql2 = "UPDATE staff SET password = ? WHERE password = ?;";
 		if (!mysqli_stmt_prepare($stmt, $sql2)) {
 			header("location: register.php?error=stmtFailed");
 			exit();
@@ -139,4 +139,20 @@ function changePassword($conn, $email, $oldPW, $newPW, $confPW){
 		exit();
 	}
 
+}
+
+function deleteAdmin($conn, $email, $password){
+	$sql = "DELETE FROM staff WHERE email = ? AND password = ?;";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+		header("location: deleteAdmin.html?error=stmtFailed");
+		exit();
+	}
+	
+	mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+	mysqli_stmt_execute($stmt)
+	mysqli_stmt_close($stmt);
+	echo "User successfully deleted.";
+	header("location: adminPage.html");
+	exit();
 }
