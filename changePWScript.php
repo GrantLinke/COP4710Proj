@@ -20,6 +20,6 @@ if(isset($_POST["submit"])) {
         exit();
     }
 	
-	changePassword($email, $oldPW, $newPW, $confPW);
+	changePassword($conn, $email, $oldPW, $newPW, $confPW);
 	
 }
