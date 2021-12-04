@@ -10,7 +10,7 @@ function userExists($conn, $email)
 	}
 	
 	mysqli_stmt_bind_param($stmt, "s", $email);
-	mysqli_stmt_execute($stmt)
+	mysqli_stmt_execute($stmt);
 	
 	$resultOne = mysqli_stmt_get_result($stmt);
 	
@@ -119,11 +119,12 @@ function changePassword($conn, $email, $oldPW, $newPW, $confPW){
 	}
 	
 	mysqli_stmt_bind_param($stmt, "s", $email);
-	mysqli_stmt_execute($stmt)
+	mysqli_stmt_execute($stmt);
 	
 	$result = mysqli_stmt_get_result($stmt);
+	$row = mysqli_fetch_assoc($result);
 
-	if($result == $oldPW){
+	if($row["password"] == $oldPW){
 		$sql2 = "UPDATE staff SET password = ? WHERE password = ?;";
 		if (!mysqli_stmt_prepare($stmt, $sql2)) {
 			header("location: register.php?error=stmtFailed");
@@ -131,7 +132,7 @@ function changePassword($conn, $email, $oldPW, $newPW, $confPW){
 		}
 		
 		mysqli_stmt_bind_param($stmt2, "ss", $newPW, $oldPW);
-		mysqli_stmt_execute($stmt2)
+		mysqli_stmt_execute($stmt2);
 		mysqli_stmt_close($stmt2);
 		mysqli_stmt_close($stmt);
 		echo "Password Successfully changed"
@@ -150,9 +151,34 @@ function deleteAdmin($conn, $email, $password){
 	}
 	
 	mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-	mysqli_stmt_execute($stmt)
+	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 	echo "User successfully deleted.";
 	header("location: adminPage.html");
 	exit();
+}
+
+function deadlineEmail($conn, $deadline){
+	$sql = "SELECT email FROM professors;";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+		header("location: adminPage.html?error=stmtFailed");
+		exit();
+	}
+	
+	mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+	mysqli_stmt_execute($stmt);
+
+	// loops thru row to get each email, then sends each email.
+	while($row = mysqli_fetch_assoc($result)){
+	$to = $row["email"];
+	$subject = "Deadline for book submission: " . $deadline;
+	$message = "This is a reminder email sent to all professors letting them
+					know that the book list submission deadline is on " . $deadline;
+	$headers = "From: noreply@libDB.com";
+	mail($to, $subject, $message, $headers);
+	}
+
+	mysqli_stmt_close($stmt);
+	header("location: adminPage.html?status=emailSent");
 }
