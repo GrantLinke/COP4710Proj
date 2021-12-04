@@ -10,15 +10,15 @@ if(isset($_POST["submit"])) {
 	require_once 'functions.php';
 	
 	if(userExists($email) == false) {
-		header("location: register.php?error=userDNE");
+		header("location: deleteAdmin.html?error=userDNE");
 		exit();
 	}
-
-    if($_SESSION["email"] != $email){
-        header("location: changePassword.html?error=incorrectEmail")
+	
+    if($delete != "DELETE"){
+        header("location: deleteAdmin.html?error=deleteError");
         exit();
     }
-	
-	changePassword($conn, $email, $oldPW, $newPW, $confPW);
+
+	deleteAdmin($conn, $email, $password);
 	
 }
