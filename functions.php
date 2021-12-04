@@ -12,7 +12,7 @@ function userExists($email)
 	mysqli_stmt_bind_param($stmt, "s", $email);
 	mysqli_stmt_execute($stmt)
 	
-	$resultOne mysqli_stmt_get_result($stmt);
+	$resultOne = mysqli_stmt_get_result($stmt);
 	
 	$sql2 = "SELECT * FROM professors where email = ?;";
 	$stmt2 = mysqli_stmt_init($conn);
@@ -24,7 +24,7 @@ function userExists($email)
 	mysqli_stmt_bind_param($stmt2, "s", $email);
 	mysqli_stmt_execute($stmt2);
 	
-	$resultTwo mysqli_stmt_get_result($stmt);
+	$resultTwo = mysqli_stmt_get_result($stmt);
 	
 	if($row = mysqli_fetch_assoc($resultOne)) {
 		return $row;
@@ -70,4 +70,40 @@ function check_login($password, $email)
 	$result=$stmt->get_result();
 	if($result != 0){ return false; }
 	else{ return true; }
+}
+
+function changePassword($email, $oldPW, $newPW, $confPW){
+	if($newPW != $confPW){
+		header("location: changePassword.html?error=passwordMismatch")
+		exit();
+	}
+
+	$sql = "SELECT password FROM staff where email = ?;";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+		header("location: register.php?error=stmtFailed");
+		exit();
+	}
+	
+	mysqli_stmt_bind_param($stmt, "s", $email);
+	mysqli_stmt_execute($stmt)
+	
+	$result = mysqli_stmt_get_result($stmt);
+
+	if($result == $oldPW){
+		$sql2 = "UPDATE staff SET password = ? WHERE password = ?"
+		if (!mysqli_stmt_prepare($stmt, $sql2)) {
+			header("location: register.php?error=stmtFailed");
+			exit();
+		}
+		
+		mysqli_stmt_bind_param($stmt2, "ss", $newPW, $oldPW);
+		mysqli_stmt_execute($stmt2)
+		mysqli_stmt_close($stmt2);
+		mysqli_stmt_close($stmt);
+		echo "Password Successfully changed"
+		header("location: home.html");
+		exit();
+	}
+
 }
