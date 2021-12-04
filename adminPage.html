@@ -28,7 +28,7 @@
 		<input type="submit" id="subDeadline" value="Send email">
 	</form>
 	
-	<br><br>
+	<br>
 	
 	<form method="post" action="individualReminder.php"> <!--NEEDS FUNCTIONALITY.-->
 		Enter a professor's email to send them a book request: <br>
@@ -36,14 +36,17 @@
 		<input type="submit" id="indivRemind" value="Send email">
 	</form>
 	<br>
-	
-	<a href="finalList.php"> <!--This is completed.--> <!--NEEDS TESTING-->
-		<input type="submit" name="finalList" value="Create final list">
-	</a>
+
+	<form method="post" action="viewRequest.php"> <!--This is completed--> <!--TESTED-->
+		Enter the semester to see the requests: <br>
+		<input type="text" name="semester">
+		<input type="submit" name="viewList" value="View requests">
+	</form>
+
 	<br>
 
-	<a href="viewList.html"> <!--NEEDS FUNCTIONALITY.-->
-		<input type="submit" name="viewList" value="View requests">
+	<a href="finalList.php"> <!--This is completed.--> <!--TESTED-->
+		<input type="submit" name="finalList" value="Create final list">
 	</a>
 	<br>
 
