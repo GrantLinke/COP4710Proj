@@ -18,13 +18,18 @@
         $dbname = "libDB";
 
         // Create connection
-        $conn = new mysqli_connect($servername, $username, $password);
+        $conn = new mysqli($servername, $username, $password,$dbname);
 
-        $sql = "SELECT * FROM Form";
-        $result = mysqli_query($conn, $sql);
-        if(mysqli_num_rows($result) > 0)
+        if ($conn -> connect_errno) {
+            echo "Failed to connect to MySQL: " . $conn -> connect_error;
+            exit();
+          }
+
+        $sql = "SELECT * FROM form";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0)
         {
-            while($row = mysqli_fetch_assos($result))
+            while($row = $result->fetch_assoc())
             {
               $class = $row['class'];
               $semester = $row['semester'];
@@ -33,17 +38,13 @@
               $author_names = $row['author_names'];
               $edition = $row['edition'];
               $publisher = $row['publisher'];
+
+              ?>
+              <h2><?php echo $class, ", ", $semester, ", " , $isbn, ", ", $book_title, ", ", $author_names, ", ", $edition, ", ", $publisher ;?></h2>
+
+            <?php 
             }
-        ?>
-            <h2><?php echo $class;?></h2>
-            <h2><?php echo $semester;?></h2>
-            <h2><?php echo $isbn;?></h2>
-            <h2><?php echo $book_title;?></h2>
-            <h2><?php echo $author_names;?></h2>
-            <h2><?php echo $edition;?></h2>
-            <h2><?php echo $publisher;?></h2>
-            <br>
-        <?php    
+           
         }
 
         mysqli_close($conn);
