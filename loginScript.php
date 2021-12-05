@@ -7,7 +7,6 @@ if(isset($_POST["submit"])) {
 	
 	require_once 'dbhandler.php';
 	require_once 'functions.php';
-	
-		login($conn, $email, $pwd);
-	
+
+	login($conn, $email, $pwd);
 }

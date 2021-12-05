@@ -6,7 +6,7 @@ $password = "";
 $dbname = "libDB";
 
 // Create connection
-$conn = new mysqli_connect($servername, $username, $password);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 if(!$conn) {
 	die("Connection failed: " . mqsqli_connect_error());

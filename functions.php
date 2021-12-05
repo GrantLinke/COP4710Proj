@@ -1,35 +1,27 @@
 <?php
 
-function userExists($conn, $email)
+function userExists($conn, $email, $role)
 {
-	$sql = "SELECT * FROM staff where email = ?;";
-	$stmt = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
-		header("location: register.php?error=stmtFailed");
+	$sql = "";
+	if($role == "professors")
+	{
+		$sql = "SELECT COUNT(*) FROM professors WHERE email = '$email';";
+	}
+	else
+	{
+		$sql = "SELECT COUNT(*) FROM staff WHERE email = '$email';";
+	}
+	
+	if (!($result = mysqli_query($conn, $sql))) {
+		echo $sql . " Didnt work " . mysqli_error($conn);
+		//header("location: register.php?error=stmtFailed");
 		exit();
 	}
 	
-	mysqli_stmt_bind_param($stmt, "s", $email);
-	mysqli_stmt_execute($stmt);
-	
-	$resultOne = mysqli_stmt_get_result($stmt);
-	
-	$sql2 = "SELECT * FROM professors where email = ?;";
-	$stmt2 = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt2, $sql2)) {
-		header("location: register.php?error=stmtFailed");
-		exit();
-	}
-	
-	mysqli_stmt_bind_param($stmt2, "s", $email);
-	mysqli_stmt_execute($stmt2);
-	
-	$resultTwo = mysqli_stmt_get_result($stmt);
-	
-	if($row = mysqli_fetch_assoc($resultOne)) {
+	if($row = mysqli_fetch_assoc($result)) {
 		return $row;
 	}
-	else if($row = mysqli_fetch_assoc($resultTwo)) {
+	else if($row = mysqli_fetch_assoc($result)) {
 		return $row;
 	}
 	else {
@@ -37,77 +29,68 @@ function userExists($conn, $email)
 	}
 	
 	mysqli_stmt_close($stmt);
-	mysqli_stmt_close($stmt2);
 }
 
 function createUser($conn, $email, $password, $role)
 {
-	$sql = "INSERT INTO ? (email, password) VALUES (?, ?);";
-	$stmt = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
-		header("location: register.php?error=stmtFailed");
+	$sql = "";
+	if($role == "professors")
+	{
+		$sql = "INSERT INTO professors VALUES ('$email', '$password', 'null', 'null');";
+		echo "professor account creation ";
+	}
+	else
+	{
+		$sql = "INSERT INTO staff VALUES ('$email', '$password', 'null', false);";
+	}
+
+	if (!mysqli_query($conn, $sql)) {
+		echo $sql . " Didnt work " . mysqli_error($conn);
+		//header("location: register.php?error=stmtFailed");
 		exit();
 	}
 	
-	mysqli_stmt_bind_param($stmt, "sss", $role, $email, $password);
-	mysqli_stmt_execute($stmt);
-	mysqli_stmt_close($stmt);
-	
-	if($role == "professors") { header("location: home.html"); }
-	else { header("location: adminPage.php"); } 
+	if($role == "professors") {
+		session_start();
+		$_SESSION["email"] = $email;
+		header("location: home.html"); 
+	}
+	else {
+		session_start();
+		$_SESSION["email"] = $email;
+		header("location: adminPage.html"); 
+	} 
 	
 	exit();
 }
 
-function login($conn, $password, $email)
+function login($conn, $email, $password)
 {
-	$sql = "SELECT * FROM staff WHERE email=? AND password=?;";
-	$stmt = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
-		header("location: login.html?error=stmtFailed");
-		exit();
-	}
+	$role = getRole($conn, $email);
+	$row = userExists($conn, $email, $role);
 
-	mysqli_stmt_bind_param($stmt, "ss" $email, $password);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
+	if($row === false){ header("location: login.html?error=badLogin"); }
 
-	$sql2 = "SELECT * FROM professors WHERE email=? AND password=?;";
-	$stmt2 = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt2, $sql2)) {
-		header("location: login.html?error=stmtFailed");
-		exit();
-	}
-
-	mysqli_stmt_bind_param($stmt2, "ss" $email, $password);
-	mysqli_stmt_execute($stmt2);
-	$result2 = mysqli_stmt_get_result($stmt2);
-
-	$row = mysqli_fetch_assoc($result);	// row represents staff
-	$row2 = mysqli_fetch_assoc($result2); // row2 represents professors
-
-	if($row == null && $row2 == null){ 
-		echo "Incorrect username/password";
-		header("location: login.html?error=incorrectLogin");
-		exit();
-	}
-	else if($row){	// if we need more session variables we declare them here
+	if($password == $row["password"]){ /* checks if passwords match */
 		session_start();
 		$_SESSION["email"] = $email;
-		header("location: adminPage.html");
-		exit();
+		if($role == "professors"){
+			header("location: home.html");
+		}
+		else{
+			header("location: adminPage.html");
+		}
 	}
 	else{
-		session_start();
-		$_SESSION["email"] = $email;
-		header("location: home.html");
-		exit();
+		echo " Didnt work " . mysqli_error($conn);
+		echo array_key_exists["password"];
 	}
+
 }
 
 function changePassword($conn, $email, $oldPW, $newPW, $confPW){
 	if($newPW != $confPW){
-		header("location: changePassword.html?error=passwordMismatch")
+		header("location: changePassword.html?error=passwordMismatch");
 		exit();
 	}
 
@@ -135,7 +118,7 @@ function changePassword($conn, $email, $oldPW, $newPW, $confPW){
 		mysqli_stmt_execute($stmt2);
 		mysqli_stmt_close($stmt2);
 		mysqli_stmt_close($stmt);
-		echo "Password Successfully changed"
+		echo "Password Successfully changed";
 		header("location: home.html");
 		exit();
 	}
@@ -181,4 +164,30 @@ function deadlineEmail($conn, $deadline){
 
 	mysqli_stmt_close($stmt);
 	header("location: adminPage.html?status=emailSent");
+}
+
+function getRole($conn, $email){
+	{
+
+		$sql = "SELECT * FROM professors WHERE email = '$email';";
+
+		$sql2 = "SELECT * FROM staff WHERE email = '$email';";
+		
+		if (!($result = mysqli_query($conn, $sql)) && !($result2 = mysqli_query($conn, $sql2))) {
+			echo $sql . " Didnt work " . $sql2 . " didnt work " . mysqli_error($conn);
+			exit();
+		}
+		
+		if($result) {
+			return $result;
+		}
+		else if($result2) {
+			return $result2;
+		}
+		else {
+			return false;
+		}
+		
+		mysqli_stmt_close($stmt);
+	}
 }
