@@ -9,7 +9,7 @@ if(isset($_POST["submit"])) {
 	require_once 'functions.php';
 	
 	if(userExists($conn, $email, $role) !== false) {
-		header("location: register.php?error=userExists");
+		header("location: register.html?error=userExists");
 		exit();
 	}
 	

@@ -5,23 +5,20 @@ function userExists($conn, $email, $role)
 	$sql = "";
 	if($role == "professors")
 	{
-		$sql = "SELECT COUNT(*) FROM professors WHERE email = '$email';";
+		$sql = "SELECT * FROM professors WHERE email = '$email';";
 	}
 	else
 	{
-		$sql = "SELECT COUNT(*) FROM staff WHERE email = '$email';";
+		$sql = "SELECT * FROM staff WHERE email = '$email';";
 	}
 	
 	if (!($result = mysqli_query($conn, $sql))) {
 		echo $sql . " Didnt work " . mysqli_error($conn);
-		//header("location: register.php?error=stmtFailed");
+		//header("location: register.html?error=stmtFailed");
 		exit();
 	}
 	
 	if($row = mysqli_fetch_assoc($result)) {
-		return $row;
-	}
-	else if($row = mysqli_fetch_assoc($result)) {
 		return $row;
 	}
 	else {
@@ -69,7 +66,7 @@ function login($conn, $email, $password)
 	$role = getRole($conn, $email);
 	$row = userExists($conn, $email, $role);
 
-	if($row === false){ header("location: login.html?error=badLogin"); }
+	if($row === false){ header("location: login.html?error=userDNE"); }
 
 	if($password == $row["password"]){ /* checks if passwords match */
 		session_start();
@@ -83,7 +80,7 @@ function login($conn, $email, $password)
 	}
 	else{
 		echo " Didnt work " . mysqli_error($conn);
-		echo array_key_exists["password"];
+		echo implode(" ", $row);
 	}
 
 }
@@ -179,10 +176,10 @@ function getRole($conn, $email){
 		}
 		
 		if($result) {
-			return $result;
+			return "professors";
 		}
 		else if($result2) {
-			return $result2;
+			return "staff";
 		}
 		else {
 			return false;
