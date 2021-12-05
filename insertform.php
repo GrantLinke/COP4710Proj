@@ -11,7 +11,7 @@
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "libDb";
+        $dbname = "libDB";
 
         // Create connection
         $conn = new mysqli($servername, $username, $password,$dbname);
@@ -29,17 +29,37 @@
         $publisher = $_REQUEST['publisher'];
         $isbn = $_REQUEST['isbn'];
 
-        // Performing insert query execution
-        $sql = "INSERT INTO form  VALUES ('$classname',
+        $sql1 = "SELECT * FROM form WHERE class= '$classname'";
+        $result = $conn->query($sql1);
+        if($result->num_rows > 0)
+        {
+            echo "<h3>A book is already assigned for this class</h3>";
+        ?>
+            <a href="form.html">
+            <input type="submit" name="form" value="Add New Form">
+            </a>
+        <?php    
+        } 
+        else
+        {
+            $sql = "INSERT INTO form  VALUES ('$classname',
             '$semester','$isbn','$booktitle', '$author', '$edition', '$publisher')";
 
-        if(mysqli_query($conn, $sql)){
-            echo "<h3>Your form submitted succesfully</h3>";
-        } else{
-            echo "ERROR: Hush! Sorry $sql. "
-                . mysqli_error($conn);
-        }
+            if(mysqli_query($conn, $sql)){
+                echo "<h3>Your form submitted succesfully</h3>";  
+        ?>
+            <a href="form.html">
+            <input type="submit" name="form" value="Add Another Form">
+            </a>
+        <?php
+            } 
+            else{
+                echo "ERROR: Hush! Sorry $sql. "
+                    . mysqli_error($conn);
+            }
 
+        }
+        
         // Close connection
         mysqli_close($conn);
         ?>
