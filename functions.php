@@ -85,37 +85,19 @@ function login($conn, $email, $password)
 }
 
 function changePassword($conn, $email, $oldPW, $newPW, $confPW){
-	if($newPW != $confPW){
-		header("location: changePassword.html?error=passwordMismatch");
-		exit();
-	}
-
-	$sql = "SELECT password FROM staff where email = ?;";
-	$stmt = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
-		header("location: register.php?error=stmtFailed");
-		exit();
-	}
-	
-	mysqli_stmt_bind_param($stmt, "s", $email);
-	mysqli_stmt_execute($stmt);
-	
-	$result = mysqli_stmt_get_result($stmt);
+	$sql = "SELECT password FROM staff where email = '$email';";
+	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
 
 	if($row["password"] == $oldPW){
-		$sql2 = "UPDATE staff SET password = ? WHERE password = ?;";
-		if (!mysqli_stmt_prepare($stmt, $sql2)) {
+		$sql2 = "UPDATE staff SET password = '$newPW' WHERE email = '$email';";
+		if (!mysqli_query($conn, $sql2)) {
 			header("location: register.php?error=stmtFailed");
 			exit();
 		}
-		
-		mysqli_stmt_bind_param($stmt2, "ss", $newPW, $oldPW);
-		mysqli_stmt_execute($stmt2);
-		mysqli_stmt_close($stmt2);
-		mysqli_stmt_close($stmt);
 		echo "Password Successfully changed";
-		header("location: home.html");
+
+		header("location: adminPage.html");
 		exit();
 	}
 
