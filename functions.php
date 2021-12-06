@@ -34,7 +34,6 @@ function createUser($conn, $email, $password, $role)
 	if($role == "professors")
 	{
 		$sql = "INSERT INTO professors VALUES ('$email', '$password', 'null', 'null');";
-		echo "professor account creation ";
 	}
 	else
 	{
@@ -123,18 +122,16 @@ function changePassword($conn, $email, $oldPW, $newPW, $confPW){
 }
 
 function deleteAdmin($conn, $email, $password){
-	$sql = "DELETE FROM staff WHERE email = ? AND password = ?;";
-	$stmt = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	$sql = "DELETE FROM staff WHERE email = '$email' AND password = '$password';";
+
+	if (!mysqli_query($conn, $sql)) {
 		header("location: deleteAdmin.html?error=stmtFailed");
 		exit();
 	}
-	
-	mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-	mysqli_stmt_execute($stmt);
-	mysqli_stmt_close($stmt);
-	echo "User successfully deleted.";
-	header("location: adminPage.html");
+	else{
+		header("location: adminPage.html");
+		exit();
+	}
 	exit();
 }
 
