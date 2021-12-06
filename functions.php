@@ -162,24 +162,14 @@ function deadlineEmail($conn, $deadline){
 
 function getRole($conn, $email){
 	{
-
-		$sql = "SELECT * FROM professors WHERE email = '$email';";
-
-		$sql2 = "SELECT * FROM staff WHERE email = '$email';";
-		
-		if (!($result = mysqli_query($conn, $sql)) && !($result2 = mysqli_query($conn, $sql2))) {
-			echo $sql . " Didnt work " . $sql2 . " didnt work " . mysqli_error($conn);
-			exit();
-		}
-		
+		$sql = "SELECT * FROM staff WHERE email = '$email';";
+		$stmt = mysqli_query($conn, $sql);
+		$result = mysqli_fetch_assoc($stmt);
 		if($result) {
-			return "professors";
-		}
-		else if($result2) {
 			return "staff";
 		}
 		else {
-			return false;
+			return "professors";
 		}
 		
 		mysqli_stmt_close($stmt);
