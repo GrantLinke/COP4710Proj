@@ -37,7 +37,7 @@ function createUser($conn, $email, $password, $role)
 	}
 	else
 	{
-		$sql = "INSERT INTO staff VALUES ('$email', '$password', 'null', false);";
+		$sql = "INSERT INTO staff VALUES ('$email', '$password', '$password', 1);";
 	}
 
 	if (!mysqli_query($conn, $sql)) {
@@ -70,11 +70,17 @@ function login($conn, $email, $password)
 	if($password == $row["password"]){ /* checks if passwords match */
 		session_start();
 		$_SESSION["email"] = $email;
+		
 		if($role == "professors"){
 			header("location: home.php");
 		}
 		else{
-			header("location: adminPage.html");
+			if($row["firstLogin"] == 1){
+				header("location: firstLogin.html");
+			}
+			else{
+				header("location: adminPage.html");
+			}
 		}
 	}
 	else{
@@ -84,7 +90,17 @@ function login($conn, $email, $password)
 
 }
 
-function changePassword($conn, $email, $oldPW, $newPW, $confPW){
+function updateFLogin($conn, $email){
+	$sql = "UPDATE staff SET tempPassword = 0 WHERE email = '$email';";
+	if (!mysqli_query($conn, $sql)) {
+		header("location: register.php?error=stmtFailed");
+		exit();
+	}
+	echo "First login successful";
+	exit();
+}
+
+function changePassword($conn, $email, $oldPW, $newPW){
 	$sql = "SELECT password FROM staff where email = '$email';";
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
