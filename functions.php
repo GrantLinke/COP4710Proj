@@ -49,7 +49,7 @@ function createUser($conn, $email, $password, $role)
 	if($role == "professors") {
 		session_start();
 		$_SESSION["email"] = $email;
-		header("location: home.html"); 
+		header("location: home.php"); 
 	}
 	else {
 		session_start();
@@ -71,7 +71,7 @@ function login($conn, $email, $password)
 		session_start();
 		$_SESSION["email"] = $email;
 		if($role == "professors"){
-			header("location: home.html");
+			header("location: home.php");
 		}
 		else{
 			header("location: adminPage.html");
