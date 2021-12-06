@@ -110,9 +110,6 @@
                                 while ($rows = mysqli_fetch_assoc($res))
                                 {
                                     $prevClass = $rows['class'];
-                                    ?>
-                                        <h1> <?php echo $prevClass; ?> </h1>
-                                    <?php
                                     array_push($classArray, $prevClass);
                                 }
                             }
