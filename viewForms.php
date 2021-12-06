@@ -31,7 +31,8 @@
 
                         
                 <?php
-                    $email = "test@test.com";
+                    //$email = "test@test.com";
+                    $email = $_SESSION['email'];
 
                     $sql = "SELECT * FROM form WHERE email='$email' ORDER BY semester DESC";
 
