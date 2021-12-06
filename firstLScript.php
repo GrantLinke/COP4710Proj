@@ -10,6 +10,7 @@ if(isset($_POST["submit"])) {
 	require_once 'dbhandler.php';
 	require_once 'functions.php';
 
-    changePassword($conn, $email, $oldPW, $newPW);
+    changePassword($conn, $userE, $oldPW, $newPW);
+    updateFLogin($conn, $userE);
 	login($conn, $userE, $pwd);
 }

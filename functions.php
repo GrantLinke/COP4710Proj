@@ -84,8 +84,7 @@ function login($conn, $email, $password)
 		}
 	}
 	else{
-		echo " Didnt work " . mysqli_error($conn);
-		echo implode(" ", $row);
+		header("location: login.html?error=badLogin");
 	}
 
 }
