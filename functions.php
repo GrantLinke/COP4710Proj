@@ -118,28 +118,56 @@ function deleteAdmin($conn, $email, $password){
 }
 
 function deadlineEmail($conn, $deadline){
-	$sql = "SELECT email FROM professors;";
-	$stmt = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	$sql = "SELECT email FROM professors";
+	$result = $conn->query($sql);
+	if($result == false)
+	{
 		header("location: adminPage.html?error=stmtFailed");
 		exit();
 	}
-	
-	mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-	mysqli_stmt_execute($stmt);
+	else
+	{
+		while($row = $result->fetch_assoc())
+		{
+			$to = $row["email"];
+			$subject = "Deadline for book submission: " . $deadline;
+			$message = "This is a reminder email sent to all professors letting them know that the book list submission deadline is on " . $deadline;
+			$headers = "From: ss.ege95@gmail.com";
+			$mailsent = mail($to, $subject, $message, $headers);
+		}
+	}	
 
 	// loops thru row to get each email, then sends each email.
-	while($row = mysqli_fetch_assoc($result)){
-	$to = $row["email"];
-	$subject = "Deadline for book submission: " . $deadline;
-	$message = "This is a reminder email sent to all professors letting them
-					know that the book list submission deadline is on " . $deadline;
-	$headers = "From: noreply@libDB.com";
-	mail($to, $subject, $message, $headers);
-	}
 
-	mysqli_stmt_close($stmt);
+	mysqli_close($conn);
 	header("location: adminPage.html?status=emailSent");
+}
+
+function inviteEmail($conn, $email)
+{
+	$sql = "SELECT email FROM professors WHERE email = '$email'";
+	$link = "http://localhost/login.html";
+	$result = $conn->query($sql);
+	if($result == false)
+	{
+		header("location: adminPage.html?error=stmtFailed");
+		exit();
+	}
+	else
+	{
+			$to = $email;
+			$subject = "Invitation for submitting a book request: " . $deadline;
+			$message = "Hello Professor,
+Please use this link to login/register to our database to submit a book request :" . $link . "
+Thank you ";
+			$headers = "From: ss.ege95@gmail.com";
+			$mailsent = mail($to, $subject, $message, $headers);
+	}	
+
+	// loops thru row to get each email, then sends each email.
+
+	mysqli_close($conn);
+	header("location: adminPage.html?status=emailSent");	
 }
 
 function getRole($conn, $email){
