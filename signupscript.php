@@ -1,5 +1,4 @@
 <?php
-
 if(isset($_POST["submit"])) {
 	$email = $_POST["email"];
 	$pwd = $_POST["password"];
@@ -14,7 +13,6 @@ if(isset($_POST["submit"])) {
 	}
 	
 	createUser($conn, $email, $pwd, $role);
-	echo "something wrong";
 	
 }
 if(isset($_POST["newAcc"])){
@@ -31,5 +29,5 @@ if(isset($_POST["newAcc"])){
 	}
 	
 	createUser($conn, $email, $pwd, $role);
-	echo "something wrong";
+	
 }
