@@ -4,13 +4,15 @@
 }
 
 .main-content{
-    background-color: #f1f2f6;
     padding: 3% 0;
 }
 
 .footer{
     background-color: #787add;
     color: white;
+    position:absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .centerText{
@@ -120,5 +122,9 @@ table.tbl1 tr td{
 }
 
 tr:nth-child(even) {
-    background-color: #c7c7c7;
-  }
+    background-color: #f3f3f3;
+}
+
+tr:nth-child(odd) {
+    background-color: #ebe6e6;
+}
