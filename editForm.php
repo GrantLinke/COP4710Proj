@@ -132,6 +132,7 @@
                                         <td colspan="2">
                                             <input type="hidden" name="email" value="<?php echo $email; ?>">
                                             <input type="hidden" name="semester" value="<?php echo $semester; ?>">
+                                            <input type="hidden" name="class" value="<?php echo $class; ?>">
                                             <input type="submit" name="submit" value="Update Class" class="buttons">
                                             <a href="<?php echo SITEURL; ?>deleteClass.php?semester=<?php echo $semester; ?>&email=<?php echo $email; ?>&class=<?php echo $class; ?>" class="button" onclick="return confirm('Are you sure you want to Delete this Class?');">Delete Class</a>
                                         </td>
