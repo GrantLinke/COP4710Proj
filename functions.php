@@ -37,7 +37,7 @@ function createUser($conn, $email, $password, $role)
 	}
 	else
 	{
-		$sql = "INSERT INTO staff VALUES ('$email', '$password', '$password', 1);";
+		$sql = "INSERT INTO staff VALUES ('$email', '', '$password', 1);";
 	}
 
 	if (!mysqli_query($conn, $sql)) {
