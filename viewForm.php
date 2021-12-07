@@ -18,7 +18,7 @@
         <div class="wrapper">
             <ul>
                 <li><a href="home.php" class="left">Home</a></li>
-                <li><a href="logout.php" class="right">Logout</a></li>
+                <li><a href="logoutScript.php" class="right">Logout</a></li>
             </ul>
         </div>
     </div>
