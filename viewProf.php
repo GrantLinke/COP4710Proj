@@ -15,7 +15,7 @@
         <div class="wrapper">
             <ul>
                 <li><a href="adminPage.html" class="left">Admin Home</a></li>
-                <li><a href="logout.php" class="right">Logout</a></li>
+                <li><a href="logoutScript.php" class="right">Logout</a></li>
             </ul>
         </div>
     </div>
