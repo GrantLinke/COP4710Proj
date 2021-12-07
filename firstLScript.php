@@ -11,6 +11,6 @@ if(isset($_POST["submit"])) {
 	require_once 'functions.php';
 
     changePassword($conn, $userE, $oldPW, $newPW);
-    updateFLogin($conn, $userE);
-	login($conn, $userE, $pwd);
+    updateFLogin($conn, $userE, $newPW);
+	login($conn, $userE, $newPW);
 }

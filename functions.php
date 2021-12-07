@@ -67,7 +67,7 @@ function login($conn, $email, $password)
 
 	if($row === false){ header("location: login.html?error=userDNE"); }
 
-	if($password == $row["password"]){ /* checks if passwords match */
+	if($password == $row["password"] || $password == $row["tempPassword"]){ /* checks if passwords match */
 		session_start();
 		$_SESSION["email"] = $email;
 		
@@ -89,14 +89,16 @@ function login($conn, $email, $password)
 
 }
 
-function updateFLogin($conn, $email){
-	$sql = "UPDATE staff SET tempPassword = 0 WHERE email = '$email';";
+function updateFLogin($conn, $email, $password){
+	$sql = "UPDATE staff SET tempPassword = 0, 
+	password = '$password',
+	firstLogin = 0
+	WHERE email = '$email';";
 	if (!mysqli_query($conn, $sql)) {
 		header("location: register.php?error=stmtFailed");
 		exit();
 	}
-	echo "First login successful";
-	exit();
+	return;
 }
 
 function changePassword($conn, $email, $oldPW, $newPW){
