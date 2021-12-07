@@ -81,7 +81,8 @@
 
 
                         
-            </table>       
+            </table><br>
+            <a href="<?php echo SITEURL; ?>home.php" class="buttons">Back</a>
         </div>    
     </div>
 
